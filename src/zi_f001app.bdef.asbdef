@@ -1,0 +1,52 @@
+managed implementation in class zbp_i_f001app unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_F001APP alias App
+with unmanaged save with full data
+draft table zdf001app
+etag master Uname
+lock master
+total etag Uname
+authorization master ( global )
+{
+  create;
+  update;
+  delete;
+  field ( readonly ) Uname;
+  association _Materials { create; with draft; }
+  association _Output { create; with draft; }
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+}
+
+define behavior for ZI_F001MATRANGE alias Materials
+persistent table zf001matrange
+draft table zdf001matrange
+lock dependent by _App
+authorization dependent by _App
+etag master Uname
+{
+  update;
+  delete;
+  field ( readonly ) Uname, Paramid;
+  field ( numbering : managed ) Paramid;
+  association _App { with draft; }
+}
+
+define behavior for zi_f001output alias Output
+persistent table zf001out
+draft table zdf001out
+lock dependent by _App
+authorization dependent by _App
+etag master Uname
+{
+  update;
+  delete;
+  field ( readonly ) Uname, Sequence;
+  association _App { with draft; }
+}
