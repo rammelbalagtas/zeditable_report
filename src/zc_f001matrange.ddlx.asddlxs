@@ -1,0 +1,15 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName:       'Materials',
+                     typeNamePlural: 'Materials' } }
+
+annotate entity ZC_F001MATRANGE with
+{
+  @EndUserText.label: 'Material From'
+  @UI.lineItem: [{ position: 10 }]
+  MatnrFrom;
+
+  @EndUserText.label: 'Material To'
+  @UI.lineItem: [{ position: 20 }]
+  MatnrTo;
+}

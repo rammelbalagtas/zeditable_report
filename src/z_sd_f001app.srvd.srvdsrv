@@ -1,0 +1,7 @@
+@EndUserText.label: 'Service definition for F001'
+@ObjectModel.leadingEntity.name: 'ZC_F001APP'
+define service Z_SD_F001APP {
+  expose ZC_F001APP;
+  expose zc_f001output;
+  expose ZC_F001MATRANGE;
+}

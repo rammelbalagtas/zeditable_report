@@ -10,18 +10,31 @@ lock master
 total etag Uname
 authorization master ( global )
 {
-  create;
-  update;
-  delete;
+  internal create;
+  internal delete;
+  update ( precheck );
   field ( readonly ) Uname;
+  field ( mandatory ) Plant;
   association _Materials { create; with draft; }
-  association _Output { create; with draft; }
+  association _Output { internal create; with draft; }
+  action ( features : instance ) extractData  result [1] $self;
+  action ( features : instance ) validateEntries  result [1] $self;
+  action ( features : instance ) clearInput  result [1] $self;
 
   draft action Edit;
   draft action Activate optimized;
   draft action Discard;
   draft action Resume;
-  draft determine action Prepare;
+  draft determine action Prepare
+  {
+    validation Output~validateNewPrice;
+    validation Output~validateNewQuantity;
+  }
+
+  side effects
+  {
+    action extractData affects entity _Output;
+  }
 }
 
 define behavior for ZI_F001MATRANGE alias Materials
@@ -36,9 +49,22 @@ etag master Uname
   field ( readonly ) Uname, Paramid;
   field ( numbering : managed ) Paramid;
   association _App { with draft; }
+  mapping for zf001matrange
+    {
+      uname              = uname;
+      Paramid            = paramid;
+      MatnrFrom          = matnr_from;
+      MatnrTo            = matnr_to;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      locallastchangedby = local_last_changed_by;
+      locallastchangedat = local_last_changed_at;
+      lastchangedat      = last_changed_at;
+    }
 }
 
 define behavior for zi_f001output alias Output
+with additional save with full data
 persistent table zf001out
 draft table zdf001out
 lock dependent by _App
@@ -46,7 +72,10 @@ authorization dependent by _App
 etag master Uname
 {
   update;
-  delete;
-  field ( readonly ) Uname, Sequence;
+  internal delete;
+  field ( readonly ) Uname, Sequence, Plant, Material, SoldToParty, Startdate, EndDate, Price, Quantity, Message;
   association _App { with draft; }
+  validation validateNewPrice on save { create; field NewPrice; }
+  validation validateNewQuantity on save { create; field NewQuantity; }
+//  action ( features : instance ) validateEntries  result [1..*] $self;
 }

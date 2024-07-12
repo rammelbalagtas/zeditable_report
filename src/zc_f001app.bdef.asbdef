@@ -1,0 +1,36 @@
+projection;
+strict ( 2 );
+use draft;
+use side effects;
+
+define behavior for ZC_F001APP //alias <alias_name>
+{
+  use update;
+
+  use action extractData;
+  use action validateEntries;
+  use action clearInput;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _Materials { create; with draft; }
+  use association _Output { with draft; }
+}
+
+define behavior for ZC_F001MATRANGE //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _App { with draft; }
+}
+
+define behavior for zc_f001output //alias <alias_name>
+{
+  use update;
+  use association _App { with draft; }
+}

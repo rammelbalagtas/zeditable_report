@@ -1,0 +1,59 @@
+@Metadata.layer: #CORE
+
+//@UI: { headerInfo: { typeName:       'Process',
+//                     typeNamePlural: 'Processes',
+//                     title:          { type: #STANDARD,
+//                                       label: 'Process Key',
+//                                       value: 'ProcessKey' } } }
+
+annotate entity zc_f001output with
+{
+  @EndUserText.label: 'Plant'
+  @UI.lineItem: [{ position: 10 },
+                 { 
+                   type: #FOR_ACTION, 
+                   dataAction: 'ZC_F001APP.validateEntries', 
+                   label: 'Validate Entries' }]
+  Plant;
+
+  @EndUserText.label: 'Material'
+  @UI.lineItem: [{ position: 20 }]
+  Material;
+
+  @EndUserText.label: 'Sold-to Party'
+  @UI.lineItem: [{ position: 30 }]
+  Soldtoparty;
+
+  @EndUserText.label: 'Start Date'
+  @UI.lineItem: [{ position: 40 }]
+  Startdate;
+
+  @EndUserText.label: 'End Date'
+  @UI.lineItem: [{ position: 50 }]
+  Enddate;
+
+  @EndUserText.label: 'Quantity'
+  @UI.lineItem: [{ position: 60 }]
+  Quantity;
+
+  @EndUserText.label: 'New Quantity'
+  @UI.lineItem: [{ position: 70 }]
+  NewQuantity;
+
+  @EndUserText.label: 'Price'
+  @UI.lineItem: [{ position: 80 }]
+  Price;
+
+  @EndUserText.label: 'New Price'
+  @UI.lineItem: [{ position: 90 }]
+  NewPrice;
+  
+  @EndUserText.label: 'Exclude'
+  @UI.lineItem: [{ position: 100 }]
+  Exclude;
+
+  @EndUserText.label: 'Message'
+  @UI.lineItem: [{ position: 110 }]
+  Message;
+
+}
