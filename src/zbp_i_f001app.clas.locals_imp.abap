@@ -293,11 +293,13 @@ CLASS lsc_ZI_F001APP IMPLEMENTATION.
 
   METHOD save_modified.
 
-    DATA: lt_app    LIKE create-app,
-          lt_output LIKE create-output,
-          lt_data   TYPE STANDARD TABLE OF zf001ds,
-          ls_data   LIKE LINE OF lt_data,
-          lt_f001   TYPE STANDARD TABLE OF zf001param.
+    DATA: lt_app     LIKE create-app,
+          lt_output  LIKE create-output,
+          lt_data    TYPE STANDARD TABLE OF zf001ds,
+          ls_data    LIKE LINE OF lt_data,
+          lt_f001    TYPE STANDARD TABLE OF zf001param,
+          lt_f001out TYPE STANDARD TABLE OF zf001out,
+          ls_f001out LIKE LINE OF lt_f001out.
 
     IF create-app IS NOT INITIAL.
       lt_app = create-app.
@@ -313,11 +315,21 @@ CLASS lsc_ZI_F001APP IMPLEMENTATION.
 
     IF lt_output IS NOT INITIAL.
       LOOP AT lt_output INTO DATA(ls_output).
-        CLEAR ls_data.
-        MOVE-CORRESPONDING ls_output TO ls_data.
-        ls_data-price = ls_output-newprice.
-        ls_data-quantity = ls_output-newquantity.
-        APPEND ls_data TO lt_data.
+        IF ls_output-Exclude EQ abap_false.
+          CLEAR ls_data.
+          MOVE-CORRESPONDING ls_output TO ls_data.
+          ls_data-price = ls_output-newprice.
+          ls_data-quantity = ls_output-newquantity.
+          APPEND ls_data TO lt_data.
+        ENDIF.
+
+        MOVE-CORRESPONDING ls_output TO ls_f001out.
+        IF ls_output-Exclude EQ abap_true.
+          ls_f001out-message = 'No updates were made'.
+        ELSE.
+          ls_f001out-message = 'Data has been updated'.
+        ENDIF.
+        APPEND ls_f001out TO lt_f001out.
       ENDLOOP.
 
       IF failed-output IS INITIAL AND
@@ -327,6 +339,10 @@ CLASS lsc_ZI_F001APP IMPLEMENTATION.
         IF lt_app IS NOT INITIAL.
           MOVE-CORRESPONDING lt_App TO lt_f001.
           MODIFY zf001param FROM TABLE @lt_f001.
+        ENDIF.
+
+        IF lt_f001out IS NOT INITIAL.
+          MODIFY zf001out FROM TABLE @lt_f001out.
         ENDIF.
 
       ENDIF.

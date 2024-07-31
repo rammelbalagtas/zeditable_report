@@ -64,8 +64,8 @@ etag master Uname
 }
 
 define behavior for zi_f001output alias Output
-with additional save with full data
-persistent table zf001out
+with unmanaged save with full data
+//persistent table zf001out
 draft table zdf001out
 lock dependent by _App
 authorization dependent by _App
