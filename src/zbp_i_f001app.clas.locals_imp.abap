@@ -88,6 +88,8 @@ CLASS lhc_App DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS validateentries FOR MODIFY
       IMPORTING keys FOR ACTION app~validateentries RESULT result.
+    METHODS uploadfile FOR MODIFY
+      IMPORTING keys FOR ACTION app~uploadfile RESULT result.
 
 ENDCLASS.
 
@@ -263,6 +265,9 @@ CLASS lhc_App IMPLEMENTATION.
                           %action-extractData = COND #( WHEN ls_app-%is_draft = if_abap_behv=>mk-off
                                                         THEN if_abap_behv=>fc-o-disabled
                                                         ELSE if_abap_behv=>fc-o-enabled )
+                          %action-uploadFile = COND #( WHEN ls_app-%is_draft = if_abap_behv=>mk-off
+                                                        THEN if_abap_behv=>fc-o-disabled
+                                                        ELSE if_abap_behv=>fc-o-enabled )
                           %action-validateEntries = COND #( WHEN ls_app-%is_draft = if_abap_behv=>mk-off
                                                         THEN if_abap_behv=>fc-o-disabled
                                                         ELSE if_abap_behv=>fc-o-enabled )
@@ -276,6 +281,9 @@ CLASS lhc_App IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD validateEntries.
+  ENDMETHOD.
+
+  METHOD uploadFile.
   ENDMETHOD.
 
 ENDCLASS.

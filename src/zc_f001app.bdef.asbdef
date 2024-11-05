@@ -8,6 +8,7 @@ define behavior for ZC_F001APP //alias <alias_name>
   use update;
 
   use action extractData;
+  use action uploadFile;
   use action validateEntries;
   use action clearInput;
 

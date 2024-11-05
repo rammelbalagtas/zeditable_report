@@ -17,6 +17,7 @@ authorization master ( global )
   field ( mandatory ) Plant;
   association _Materials { create; with draft; }
   association _Output { internal create; with draft; }
+  action ( features : instance ) uploadFile  result [1] $self;
   action ( features : instance ) extractData  result [1] $self;
   action ( features : instance ) validateEntries  result [1] $self;
   action ( features : instance ) clearInput  result [1] $self;

@@ -18,6 +18,18 @@ define root view entity ZC_F001APP
       Soldtoparty,
       Validasof,
       Updatedata,
+      @Semantics.largeObject: {
+        acceptableMimeTypes: [ 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ],
+        cacheControl.maxAge: #MEDIUM,
+        contentDispositionPreference: #ATTACHMENT , // #ATTACHMENT - download as file
+                                                    // #INLINE - open in new window
+        fileName: 'Filename',
+        mimeType: 'Mimetype'
+      }
+      UploadFile,
+      Filename,
+      @Semantics.mimeType: true
+      Mimetype,
       Localcreatedby,
       Localcreatedat,
       Locallastchangedby,

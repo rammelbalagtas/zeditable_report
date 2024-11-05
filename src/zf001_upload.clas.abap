@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zf001_upload IMPLEMENTATION.
+CLASS ZF001_UPLOAD IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
     DATA lt_data TYPE STANDARD TABLE OF zf001ds.
     DATA ls_data TYPE zf001ds.
